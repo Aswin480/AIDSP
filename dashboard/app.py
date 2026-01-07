@@ -26,7 +26,7 @@ st.markdown("""
 # LOAD DATA
 # ==================================================
 if not GRANULAR_FILE.exists() or not RISK_FILE.exists():
-    st.error("❌ Required data files not found. Run the pipeline first.")
+    st.error(" Required data files not found. Run the pipeline first.")
     st.stop()
 
 granular_df = pd.read_csv(GRANULAR_FILE)
@@ -68,7 +68,7 @@ with c3:
     )
 
 with c4:
-    demo_mode = st.toggle("🎤 Demo Mode", value=False)
+    demo_mode = st.toggle(" Demo Mode", value=False)
 
 # Date handling
 if isinstance(date_range, tuple):
@@ -103,7 +103,7 @@ def model_confidence(rows):
         return "Low Confidence"
 
 # ==================================================
-# 1️⃣ STATE INTELLIGENCE
+# 1️ STATE INTELLIGENCE
 # ==================================================
 if view == "State Intelligence":
     st.subheader(f"State Risk Intelligence — {state}")
@@ -124,7 +124,7 @@ if view == "State Intelligence":
             border-radius:10px;
             padding:18px;
             margin-bottom:20px;">
-            <h4>🧭 Recommended Administrative Action</h4>
+            <h4> Recommended Administrative Action</h4>
             <p>
             <b>State:</b> {state}<br>
             <b>Risk Level:</b> {level}<br>
@@ -152,7 +152,7 @@ if view == "State Intelligence":
         m4.metric("High Intervention Impact", f"{sr['high_intervention'].iloc[0]:.3f}")
 
     # -------------------------------
-    # 🔍 WHY THIS RECOMMENDATION?
+    # WHY THIS RECOMMENDATION?
     # -------------------------------
     st.markdown("### 🔍 Why this recommendation?")
     st.caption(
@@ -199,7 +199,7 @@ if view == "State Intelligence":
     # -------------------------------
     # ACTIVITY SUMMARY
     # -------------------------------
-    st.markdown("### 📦 Aadhaar Activity Summary")
+    st.markdown("###  Aadhaar Activity Summary")
     st.caption(f"Records analysed: {len(gdf)}")
 
     if not gdf.empty:
@@ -210,7 +210,7 @@ if view == "State Intelligence":
         a3.metric("Demographic Modifications", int(s["demographic"]))
 
 # ==================================================
-# 2️⃣ DISTRICT DRILL-DOWN
+# 2️ DISTRICT DRILL-DOWN
 # ==================================================
 elif view == "District Drill-down":
     st.subheader("District-level Operational Overview")
@@ -232,7 +232,7 @@ elif view == "District Drill-down":
         )
 
 # ==================================================
-# 3️⃣ PIN ANALYSIS
+# 3️ PIN ANALYSIS
 # ==================================================
 else:
     st.subheader("PIN-level Operational Concentration")
