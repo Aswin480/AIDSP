@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 def main():
-    print("🚀 Starting AIDSP Pipeline")
+    print(" Starting AIDSP Pipeline")
 
     # ==================================================
-    # 1️⃣ LOAD RAW DATA
+    # 1️ LOAD RAW DATA
     # ==================================================
     enrol = load_enrolment_data()
     demo = load_demographic_data()
@@ -38,9 +38,9 @@ def main():
     bio["date"] = pd.to_datetime(bio["date"], errors="coerce")
 
     # ==================================================
-    # 2️⃣ CREATE GRANULAR DATASET (GUARANTEED)
+    # 2️ CREATE GRANULAR DATASET (GUARANTEED)
     # ==================================================
-    print("📦 Creating granular UIDAI dataset")
+    print(" Creating granular UIDAI dataset")
 
     granular = enrol.merge(
         demo,
@@ -86,17 +86,17 @@ def main():
     granular_path = processed_dir / "granular_uidai.csv"
     granular.to_csv(granular_path, index=False)
 
-    print(f"✅ Granular UIDAI saved → {granular_path}")
+    print(f" Granular UIDAI saved → {granular_path}")
 
     # ==================================================
-    # 3️⃣ FEATURE ENGINEERING (STATE LEVEL)
+    # 3️ FEATURE ENGINEERING (STATE LEVEL)
     # ==================================================
     enrol_f = build_enrolment_features(enrol)
     demo_f = build_demographic_features(demo)
     bio_f = build_biometric_features(bio)
 
     # ==================================================
-    # 4️⃣ MERGE FEATURES
+    # 4️ MERGE FEATURES
     # ==================================================
     features = enrol_f.merge(demo_f, on=["state", "date"], how="left")
     features = features.merge(bio_f, on=["state", "date"], how="left")
@@ -106,7 +106,7 @@ def main():
     features = features[features["state"].str.len() > 3]
 
     # ==================================================
-    # 📊 AGGREGATE TO STATE–DATE LEVEL
+    #  AGGREGATE TO STATE–DATE LEVEL
     # ==================================================
     numeric_cols = features.select_dtypes(include="number").columns
 
@@ -116,7 +116,7 @@ def main():
         .sum()
     )
 
-    print(f"✅ Valid states after cleaning: {features['state'].nunique()}")
+    print(f" Valid states after cleaning: {features['state'].nunique()}")
 
     features.to_csv(
         processed_dir / "feature_dataset.csv",
@@ -124,7 +124,7 @@ def main():
     )
 
     # ==================================================
-    # 5️⃣ RISK SCORING
+    # 5️ RISK SCORING
     # ==================================================
     # Save feature dataset WITH risk for trend analysis
     # Save date-wise risk for trend analysis (REAL DATA)
@@ -135,12 +135,12 @@ def main():
 
 
     # ==================================================
-    # 6️⃣ FORECASTING
+    # 6️ FORECASTING
     # ==================================================
     forecast = forecast_state_risk(features)
 
     # ==================================================
-    # 7️⃣ POLICY SIMULATION
+    # 7️ POLICY SIMULATION
     # ==================================================
     policy_output = apply_policy_scenarios(forecast)
 
@@ -153,7 +153,7 @@ def main():
     )
 
     # ==================================================
-    # 8️⃣ STRESS GENOME
+    # 8️ STRESS GENOME
     # ==================================================
     genome = compute_stress_genome(features)
     genome = assign_archetypes(genome)
@@ -163,8 +163,8 @@ def main():
         index=False
     )
 
-    print("🧬 Stress Genome saved")
-    print("✅ AIDSP Pipeline Completed Successfully")
+    print( Stress Genome saved")
+    print(" AIDSP Pipeline Completed Successfully")
 
 
 if __name__ == "__main__":
